@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atul Singh — SIEM Lead Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #0f1923;
+    --accent:   #1a3a5c;
+    --gold:     #c8922a;
+    --gold-lt:  #f0c96a;
+    --bg:       #f7f4ef;
+    --paper:    #ffffff;
+    --muted:    #6b7a8d;
+    --rule:     #ddd5c8;
+    --tag-bg:   #e8f0f8;
+    --tag-fg:   #1a3a5c;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── TOP ACCENT BAR ── */
+  .topbar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 50%, var(--accent) 100%);
+  }
+
+  /* ── WRAPPER ── */
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 4px 60px rgba(15,25,35,.10);
+  }
+
+  /* ══════════════════════════════
+     HEADER
+  ══════════════════════════════ */
+  .header {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0;
+    background: var(--accent);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: rgba(200,146,42,.12);
+    pointer-events: none;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    right: 80px; bottom: -80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(200,146,42,.08);
+    pointer-events: none;
+  }
+
+  .header-photo {
+    padding: 32px 0 32px 32px;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+  }
+  .header-photo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 0 5px rgba(200,146,42,.2);
+  }
+
+  .header-info {
+    padding: 32px 40px 32px 28px;
+    z-index: 1;
+  }
+  .name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    letter-spacing: -.01em;
+    line-height: 1;
+    color: #fff;
+  }
+  .title-line {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+    margin-top: 8px;
+    margin-bottom: 18px;
+  }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .8rem;
+    color: rgba(255,255,255,.8);
+    letter-spacing: .01em;
+  }
+  .contact-item a {
+    color: var(--gold-lt);
+    text-decoration: none;
+  }
+  .contact-item a:hover { text-decoration: underline; }
+  .cicon {
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,.12);
+    border-radius: 4px;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+  .exp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gold);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: .1em;
+    padding: 4px 12px;
+    border-radius: 30px;
+    margin-top: 14px;
+  }
+
+  /* ══════════════════════════════
+     TWO-COLUMN BODY
+  ══════════════════════════════ */
+  .body {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    align-items: start;
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar {
+    background: #f2ede6;
+    padding: 30px 24px;
+    border-right: 1px solid var(--rule);
+    height: 100%;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    padding: 30px 36px;
+  }
+
+  /* ── SECTION TEMPLATE ── */
+  .section { margin-bottom: 30px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: .02em;
+    padding-bottom: 7px;
+    border-bottom: 2px solid var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-title .sico { font-size: .9rem; }
+
+  /* Sidebar section title */
+  .sidebar .sec-title {
+    font-size: .9rem;
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── SUMMARY ── */
+  .summary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .summary-item {
+    display: flex;
+    gap: 10px;
+    font-size: .82rem;
+    line-height: 1.55;
+    color: #333;
+  }
+  .summary-item::before {
+    content: '▸';
+    color: var(--gold);
+    font-size: .8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── EXPERIENCE ── */
+  .job { margin-bottom: 22px; }
+  .job:last-child { margin-bottom: 0; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 3px;
+  }
+  .job-company {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .job-period {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    color: var(--gold);
+    background: rgba(200,146,42,.1);
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .job-role {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 9px;
+  }
+  .job-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .job-bullets li {
+    font-size: .8rem;
+    line-height: 1.5;
+    color: #3a3a3a;
+    padding-left: 14px;
+    position: relative;
+  }
+  .job-bullets li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .job-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 18px 0;
+  }
+
+  /* ── CERTIFICATIONS (sidebar) ── */
+  .cert-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cert-list li {
+    font-size: .77rem;
+    line-height: 1.4;
+    color: #3a3a3a;
+    padding: 7px 10px;
+    background: rgba(26,58,92,.06);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 5px 5px 0;
+  }
+
+  /* ── SKILLS (sidebar) ── */
+  .skill-group { margin-bottom: 14px; }
+  .skill-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tag {
+    font-size: .7rem;
+    font-weight: 500;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: .02em;
+  }
+
+  /* ── EDUCATION (sidebar) ── */
+  .edu-item { margin-bottom: 12px; }
+  .edu-deg {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .edu-school {
+    font-size: .75rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    color: var(--gold);
+    margin-top: 3px;
+  }
+
+  /* ── BOTTOM STRIP ── */
+  .bottombar {
+    background: var(--accent);
+    color: rgba(255,255,255,.5);
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .08em;
+    text-align: center;
+    padding: 10px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="page">
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-photo">
+      <img src="data:image/jpeg;base64,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" alt="Atul Singh" />
+    </div>
+    <div class="header-info">
+      <div class="name">Atul Singh</div>
+      <div class="title-line">SIEM Lead Engineer &nbsp;·&nbsp; AIOps Platform Architect</div>
+      <div class="contact-row">
+        <div class="contact-item"><div class="cicon">📍</div> 909 70th PLZ, Omaha, NE 68106, USA</div>
+        <div class="contact-item"><div class="cicon">✉</div> <a href="mailto:atulsinghmothi@gmail.com">atulsinghmothi@gmail.com</a></div>
+        <div class="contact-item"><div class="cicon">📞</div> <a href="tel:+15314848201">+1 (531) 484-8201</a></div>
+      </div>
+      <div class="exp-badge">⚡ 11.2+ Years Experience</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar">
+
+      <!-- CERTIFICATIONS -->
+      <div class="section">
+        <div class="sec-title"><span class="sico">🏅</span> Certifications</div>
+        <ul class="cert-list">
+          <li>Cribl Certified Observability Engineer</li>
+          <li>Splunk Certified Enterprise Architect</li>
+          <li>Splunk Certified Enterprise Admin</li>
+          <li>Splunk Certified Power User</li>
+          <li>Splunk Certified User</li>
+          <li>Splunk Sales Engineer — L1</li>
+          <li>ITIL V4 Foundation</li>
+          <li>BCS ISEB Certificate in Business Analysis</li>
+          <li>Level "0" French Language Certification</li>
+        </ul>
+      </div>
+
+      <!-- CORE PLATFORMS -->
+      <div class="section">
+        <div class="sec-title"><span class="sico">🛠</span> Core Platforms</div>
+        <div class="skill-group">
+          <div class="skill-group-label">SIEM / Observability</div>
+          <div class="tags">
+            <span class="tag">Splunk Enterprise</span>
+            <span class="tag">Splunk Cloud</span>
+            <span class="tag">Splunk ITSI</span>
+            <span class="tag">Splunk ES</span>
+            <span class="tag">Datadog</span>
+            <span class="tag">Dynatrace</span>
+            <span class="tag">SolarWinds</span>
+            <span class="tag">Cribl</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Cloud &amp; DevOps</div>
+          <div class="tags">
+            <span class="tag">Google Cloud</span>
+            <span class="tag">Azure</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">Docker</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">Ansible</span>
+            <span class="tag">Bitbucket</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Integrations</div>
+          <div class="tags">
+            <span class="tag">MuleSoft</span>
+            <span class="tag">ServiceNow</span>
+            <span class="tag">Hashicorp</span>
+            <span class="tag">Snowflake</span>
+            <span class="tag">SAP</span>
+            <span class="tag">DB Connect</span>
+            <span class="tag">Carbon Black</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Methods &amp; Frameworks</div>
+          <div class="tags">
+            <span class="tag">ITIL V4</span>
+            <span class="tag">Scrum / Agile</span>
+            <span class="tag">Kanban</span>
+            <span class="tag">SRE</span>
+            <span class="tag">SOC / NOC</span>
+            <span class="tag">CIM / RBAC</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="section">
+        <div class="sec-title"><span class="sico">🎓</span> Education</div>
+        <div class="edu-item">
+          <div class="edu-deg">B.E. — Electronics &amp; Communication Engineering</div>
+          <div class="edu-school">Indore, India</div>
+          <div class="edu-year">2010 – 2014</div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ══ MAIN COLUMN ══ -->
+    <main class="main">
+
+      <!-- PROFESSIONAL SUMMARY -->
+      <div class="section">
+        <div class="sec-title"><span class="sico">💡</span> Professional Summary</div>
+        <div class="summary-grid">
+          <div class="summary-item">SIEM &amp; observability engineer with 11.2+ years of field experience; strong curiosity for SIEM, O8, security, and business risk management.</div>
+          <div class="summary-item">Deep expertise in Splunk architecture, Datadog APM, SolarWinds monitoring, Dynatrace, and Cribl implementation &amp; optimization.</div>
+          <div class="summary-item">Proven track record in end-to-end project planning — from scope management to cost estimation, risk analysis, and quality delivery.</div>
+          <div class="summary-item">Cloud ingestion architect: CloudWatch, Azure Monitor, GCP Logging, Kubernetes, serverless apps, and container platforms.</div>
+          <div class="summary-item">Engage Pre-Sales &amp; Engineering leadership to strategize on RFIs/RFPs, SOWs, POVs, and SIEM portfolio demos.</div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="section">
+        <div class="sec-title"><span class="sico">💼</span> Work Experience</div>
+
+        <!-- Job 1 -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-company">Converge Technology — New York, USA</div>
+            <div class="job-period">Mar 2023 – Present</div>
+          </div>
+          <div class="job-role">Platform Lead Architect, AIOps</div>
+          <ul class="job-bullets">
+            <li>Lead an AIOps engineering team of 7 across design, implementation, maintenance, and support.</li>
+            <li>Architect end-to-end Business Intelligence &amp; IT Observability solutions: Splunk ITSI, Datadog, SolarWinds, Dynatrace.</li>
+            <li>Embed SRE principles into SDLC and ITSM processes; support incident response with technical analysis and post-incident reviews.</li>
+            <li>Configure high-availability Splunk infrastructure: indexing clusters, search heads, forwarders, and load balancers.</li>
+            <li>Develop data ingestion, normalization, and lifecycle strategies including retention, backup, and recovery.</li>
+            <li>Delivered SAP PowerConnect solution for e-commerce and integrated Kubernetes/Hybris with Splunk Cloud via OTel Collector.</li>
+            <li>Establish governance frameworks, best practices, and compliance standards for SIEM deployments.</li>
+          </ul>
+        </div>
+        <div class="job-divider"></div>
+
+        <!-- Job 2 -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-company">Standard Chartered Bank — Delhi, India</div>
+            <div class="job-period">Jul 2020 – Jul 2022</div>
+          </div>
+          <div class="job-role">Assistant Manager, SIEM</div>
+          <ul class="job-bullets">
+            <li>Led SIEM Engineering team with full Splunk &amp; Cribl ownership across 18 TB/day indexing environments.</li>
+            <li>Delivered Splunk migration: On-Prem (Enterprise) → Cloud, and Cloud-to-Cloud migrations.</li>
+            <li>Built reusable search frameworks, data models, and CIM mappings; designed capabilities for AppDynamics, SQL, ServiceNow, MuleSoft, AWS, Azure, and more.</li>
+            <li>Managed Cribl infrastructure for ingestion consolidation and pipeline management.</li>
+          </ul>
+        </div>
+        <div class="job-divider"></div>
+
+        <!-- Job 3 -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-company">Ernst &amp; Young — Bangalore, India</div>
+            <div class="job-period">Feb 2019 – Jul 2020</div>
+          </div>
+          <div class="job-role">Splunk Architect, Enterprise Solutions</div>
+          <ul class="job-bullets">
+            <li>Architected large-scale log, metric, and trace ingestion from hybrid on-prem &amp; cloud workloads.</li>
+            <li>Designed RBAC, LDAP/AD/SAML/SSO integrations, and security policies.</li>
+            <li>Performed capacity planning, scaling, clustering design, storage planning, and performance benchmarking.</li>
+            <li>Installed and managed all Splunk roles: Search Heads, Indexers, Forwarders, Deployment Servers, Cluster Managers.</li>
+          </ul>
+        </div>
+        <div class="job-divider"></div>
+
+        <!-- Job 4 -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-company">Accenture — Bangalore, India</div>
+            <div class="job-period">May 2015 – Jan 2019</div>
+          </div>
+          <div class="job-role">Sr. Engineer, L3 Production</div>
+          <ul class="job-bullets">
+            <li>Splunk SIEM production support for a global financial client; onboarded logs via HF/UF/HEC/scripted inputs/Add-Ons.</li>
+            <li>Configured DB Connect integrations (Oracle, MySQL, MSSQL) and used ServiceNow/Remedy for ticket management.</li>
+            <li>Optimized Splunk query performance and reduced dashboard load times; built POC dashboards for IT ops and service owners.</li>
+          </ul>
+        </div>
+        <div class="job-divider"></div>
+
+        <!-- Job 5 -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-company">Tata Communications — Riyadh, KSA</div>
+            <div class="job-period">Oct 2014 – May 2015</div>
+          </div>
+          <div class="job-role">Graduate Engineer Trainee, Data Analyst</div>
+          <ul class="job-bullets">
+            <li>Project implementation consultant using Splunk and Power BI for data analysis across telecom products.</li>
+            <li>Managed Siebel requirement tracking, month-end reporting matrices, and compliance UAT sign-off.</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <div class="bottombar">Atul Singh &nbsp;·&nbsp; SIEM Lead Engineer &nbsp;·&nbsp; atulsinghmothi@gmail.com &nbsp;·&nbsp; Omaha, NE USA &nbsp;·&nbsp; Nov 2025</div>
+</div>
+
+</body>
+</html>
