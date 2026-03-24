@@ -1,584 +1,1109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atul Singh — SIEM Lead Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink:      #0f1923;
-    --accent:   #1a3a5c;
-    --gold:     #c8922a;
-    --gold-lt:  #f0c96a;
-    --bg:       #f7f4ef;
-    --paper:    #ffffff;
-    --muted:    #6b7a8d;
-    --rule:     #ddd5c8;
-    --tag-bg:   #e8f0f8;
-    --tag-fg:   #1a3a5c;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atul Singh – Enterprise Solution Architect · SIEM & Observability</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg: #f0f6ff;
+      --surface: #ffffff;
+      --surface2: #e8f0fb;
+      --border: #d0ddf0;
+      --accent: #1a6fc4;
+      --accent2: #16a34a;
+      --text: #0f172a;
+      --muted: #4a6080;
+      --danger: #dc2626;
+    }
 
-  body {
-    background: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--ink);
-    min-height: 100vh;
-  }
+    html { scroll-behavior: smooth; }
 
-  /* ── TOP ACCENT BAR ── */
-  .topbar {
-    height: 5px;
-    background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 50%, var(--accent) 100%);
-  }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-  /* ── WRAPPER ── */
-  .page {
-    max-width: 960px;
-    margin: 0 auto;
-    background: var(--paper);
-    box-shadow: 0 4px 60px rgba(15,25,35,.10);
-  }
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0.75rem 2rem;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+    nav .logo { font-weight: 700; color: var(--accent); letter-spacing: 0.02em; font-size: 1rem; }
+    nav ul { list-style: none; display: flex; gap: 1.75rem; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+    nav a:hover { color: var(--text); }
 
-  /* ══════════════════════════════
-     HEADER
-  ══════════════════════════════ */
-  .header {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 0;
-    background: var(--accent);
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    right: -60px; top: -60px;
-    width: 340px; height: 340px;
-    border-radius: 50%;
-    background: rgba(200,146,42,.12);
-    pointer-events: none;
-  }
-  .header::after {
-    content: '';
-    position: absolute;
-    right: 80px; bottom: -80px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(200,146,42,.08);
-    pointer-events: none;
-  }
+    /* ── HERO ── */
+    /* ── HERO ── */
+    header {
+      position: relative;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      background: linear-gradient(
+        180deg,
+        #4fc3f7 0%,
+        #81d4fa 25%,
+        #b3e5fc 55%,
+        #e1f5fe 80%,
+        #f0f9ff 100%
+      );
+    }
 
-  .header-photo {
-    padding: 32px 0 32px 32px;
-    display: flex;
-    align-items: center;
-    z-index: 1;
-  }
-  .header-photo img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    border: 3px solid var(--gold);
-    box-shadow: 0 0 0 5px rgba(200,146,42,.2);
-  }
+    /* fade at bottom to blend into light site */
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        transparent 60%,
+        rgba(240,246,255,0.7) 80%,
+        rgba(240,246,255,1) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
 
-  .header-info {
-    padding: 32px 40px 32px 28px;
-    z-index: 1;
-  }
-  .name {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.6rem;
-    font-weight: 900;
-    letter-spacing: -.01em;
-    line-height: 1;
-    color: #fff;
-  }
-  .title-line {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: .75rem;
-    font-weight: 500;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--gold-lt);
-    margin-top: 8px;
-    margin-bottom: 18px;
-  }
-  .contact-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 22px;
-  }
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: .8rem;
-    color: rgba(255,255,255,.8);
-    letter-spacing: .01em;
-  }
-  .contact-item a {
-    color: var(--gold-lt);
-    text-decoration: none;
-  }
-  .contact-item a:hover { text-decoration: underline; }
-  .cicon {
-    width: 18px; height: 18px;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(255,255,255,.12);
-    border-radius: 4px;
-    font-size: 11px;
-    flex-shrink: 0;
-  }
-  .exp-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--gold);
-    color: var(--accent);
-    font-family: 'DM Mono', monospace;
-    font-size: .68rem;
-    font-weight: 500;
-    letter-spacing: .1em;
-    padding: 4px 12px;
-    border-radius: 30px;
-    margin-top: 14px;
-  }
+    /* ── CLOUDS ── */
+    .clouds {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50px;
+      opacity: 0.85;
+    }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+    }
 
-  /* ══════════════════════════════
-     TWO-COLUMN BODY
-  ══════════════════════════════ */
-  .body {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    align-items: start;
-  }
+    /* cloud sizes & positions */
+    .c1  { width:180px; height:55px; top:8%;  left:-200px; animation: cloudDrift 28s linear infinite; }
+    .c1::before { width:90px; height:90px; top:-45px; left:20px; }
+    .c1::after  { width:70px; height:70px; top:-35px; left:80px; }
 
-  /* ── LEFT SIDEBAR ── */
-  .sidebar {
-    background: #f2ede6;
-    padding: 30px 24px;
-    border-right: 1px solid var(--rule);
-    height: 100%;
-  }
+    .c2  { width:240px; height:65px; top:18%; left:-260px; animation: cloudDrift 38s 6s linear infinite; opacity:0.75; }
+    .c2::before { width:110px; height:110px; top:-55px; left:30px; }
+    .c2::after  { width:85px;  height:85px;  top:-45px; left:110px; }
 
-  /* ── MAIN CONTENT ── */
-  .main {
-    padding: 30px 36px;
-  }
+    .c3  { width:150px; height:45px; top:32%; left:-180px; animation: cloudDrift 24s 12s linear infinite; opacity:0.8; }
+    .c3::before { width:70px; height:70px; top:-36px; left:15px; }
+    .c3::after  { width:55px; height:55px; top:-28px; left:70px; }
 
-  /* ── SECTION TEMPLATE ── */
-  .section { margin-bottom: 30px; }
-  .section:last-child { margin-bottom: 0; }
+    .c4  { width:200px; height:60px; top:12%; left:-220px; animation: cloudDrift 32s 3s linear infinite; opacity:0.7; }
+    .c4::before { width:95px; height:95px; top:-48px; left:25px; }
+    .c4::after  { width:75px; height:75px; top:-38px; left:95px; }
 
-  .sec-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: .02em;
-    padding-bottom: 7px;
-    border-bottom: 2px solid var(--gold);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sec-title .sico { font-size: .9rem; }
+    .c5  { width:280px; height:70px; top:5%;  left:-300px; animation: cloudDrift 44s 18s linear infinite; opacity:0.65; }
+    .c5::before { width:130px; height:130px; top:-65px; left:40px; }
+    .c5::after  { width:100px; height:100px; top:-50px; left:140px; }
 
-  /* Sidebar section title */
-  .sidebar .sec-title {
-    font-size: .9rem;
-    border-bottom-color: var(--accent);
-  }
+    .c6  { width:160px; height:50px; top:40%; left:-180px; animation: cloudDrift 30s 9s linear infinite; opacity:0.72; }
+    .c6::before { width:80px; height:80px; top:-40px; left:18px; }
+    .c6::after  { width:60px; height:60px; top:-30px; left:80px; }
 
-  /* ── SUMMARY ── */
-  .summary-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
-  .summary-item {
-    display: flex;
-    gap: 10px;
-    font-size: .82rem;
-    line-height: 1.55;
-    color: #333;
-  }
-  .summary-item::before {
-    content: '▸';
-    color: var(--gold);
-    font-size: .8rem;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
+    @keyframes cloudDrift {
+      from { transform: translateX(0); }
+      to   { transform: translateX(calc(100vw + 320px)); }
+    }
 
-  /* ── EXPERIENCE ── */
-  .job { margin-bottom: 22px; }
-  .job:last-child { margin-bottom: 0; }
+    /* particle canvas */
+    #particleCanvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.35;
+    }
 
-  .job-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 3px;
-  }
-  .job-company {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .job-period {
-    font-family: 'DM Mono', monospace;
-    font-size: .65rem;
-    color: var(--gold);
-    background: rgba(200,146,42,.1);
-    padding: 3px 9px;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .job-role {
-    font-size: .78rem;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    margin-bottom: 9px;
-  }
-  .job-bullets {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  .job-bullets li {
-    font-size: .8rem;
-    line-height: 1.5;
-    color: #3a3a3a;
-    padding-left: 14px;
-    position: relative;
-  }
-  .job-bullets li::before {
-    content: '–';
-    position: absolute;
-    left: 0;
-    color: var(--gold);
-    font-weight: 700;
-  }
+    /* text content */
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      padding: 2rem 1.5rem;
+      max-width: 700px;
+    }
 
-  .job-divider {
-    height: 1px;
-    background: var(--rule);
-    margin: 18px 0;
-  }
+    /* fade-up entrance */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    header h1        { animation: fadeUp 0.8s 0.1s ease both; }
+    .title-badge     { animation: fadeUp 0.8s 0.25s ease both; }
+    .tagline         { animation: fadeUp 0.8s 0.4s ease both; }
+    .cta-row         { animation: fadeUp 0.8s 0.55s ease both; }
 
-  /* ── CERTIFICATIONS (sidebar) ── */
-  .cert-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .cert-list li {
-    font-size: .77rem;
-    line-height: 1.4;
-    color: #3a3a3a;
-    padding: 7px 10px;
-    background: rgba(26,58,92,.06);
-    border-left: 3px solid var(--gold);
-    border-radius: 0 5px 5px 0;
-  }
+    /* orbital visual — right side, desktop only */
+    .hero-visual {
+      display: none;
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 380px; height: 380px;
+      z-index: 3;
+    }
+    @media (min-width: 1024px) { .hero-visual { display: block; } }
 
-  /* ── SKILLS (sidebar) ── */
-  .skill-group { margin-bottom: 14px; }
-  .skill-group-label {
-    font-family: 'DM Mono', monospace;
-    font-size: .62rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-  .tag {
-    font-size: .7rem;
-    font-weight: 500;
-    background: var(--tag-bg);
-    color: var(--tag-fg);
-    padding: 3px 9px;
-    border-radius: 4px;
-    letter-spacing: .02em;
-  }
+    .orbit-ring {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .ring-1 {
+      width: 160px; height: 160px;
+      border: 1px solid rgba(88,166,255,0.25);
+      animation: orbitSpin 8s linear infinite;
+    }
+    .ring-2 {
+      width: 260px; height: 260px;
+      border: 1px solid rgba(124,58,237,0.18);
+      animation: orbitSpin 14s linear infinite reverse;
+    }
+    .ring-3 {
+      width: 360px; height: 360px;
+      border: 1px dashed rgba(88,166,255,0.12);
+      animation: orbitSpin 22s linear infinite;
+    }
+    @keyframes orbitSpin {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(360deg); }
+    }
 
-  /* ── EDUCATION (sidebar) ── */
-  .edu-item { margin-bottom: 12px; }
-  .edu-deg {
-    font-size: .82rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .edu-school {
-    font-size: .75rem;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .edu-year {
-    font-family: 'DM Mono', monospace;
-    font-size: .65rem;
-    color: var(--gold);
-    margin-top: 3px;
-  }
+    .orbit-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(88,166,255,0.15), rgba(124,58,237,0.15));
+      border: 1px solid rgba(88,166,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 0 40px rgba(88,166,255,0.15), 0 0 80px rgba(124,58,237,0.1);
+      animation: orbitFloat 4s ease-in-out infinite;
+    }
+    @keyframes orbitFloat {
+      0%,100% { transform: translate(-50%,-50%) translateY(0); }
+      50%      { transform: translate(-50%,-50%) translateY(-12px); }
+    }
 
-  /* ── BOTTOM STRIP ── */
-  .bottombar {
-    background: var(--accent);
-    color: rgba(255,255,255,.5);
-    font-family: 'DM Mono', monospace;
-    font-size: .62rem;
-    letter-spacing: .08em;
-    text-align: center;
-    padding: 10px;
-  }
+    .orbit-dot {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      background: linear-gradient(135deg, #58a6ff, #7c3aed);
+    }
+    .dot-1 { width:10px; height:10px; box-shadow:0 0 10px #58a6ff; animation: dot1 8s linear infinite; }
+    .dot-2 { width:7px;  height:7px;  box-shadow:0 0 8px #7c3aed;  animation: dot2 14s linear infinite reverse; }
+    .dot-3 { width:8px;  height:8px;  box-shadow:0 0 9px #58a6ff;  animation: dot3 22s linear infinite; }
+    @keyframes dot1 { from{transform:rotate(0deg) translateX(80px);}   to{transform:rotate(360deg) translateX(80px);} }
+    @keyframes dot2 { from{transform:rotate(0deg) translateX(130px);}  to{transform:rotate(360deg) translateX(130px);} }
+    @keyframes dot3 { from{transform:rotate(60deg) translateX(180px);} to{transform:rotate(420deg) translateX(180px);} }
 
-  @media print {
-    body { background: #fff; }
-    .page { box-shadow: none; }
-  }
-</style>
+    /* scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 4;
+      opacity: 0.7;
+    }
+    .scroll-indicator span { font-size: 0.7rem; letter-spacing: 0.1em; color: #1a3557; text-transform: uppercase; font-weight: 600; }
+    .scroll-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, transparent, var(--accent));
+      animation: scrollPulse 2s ease infinite;
+    }
+    @keyframes scrollPulse {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+    header h1 { font-size: clamp(3rem, 7vw, 5rem); font-weight: 800; letter-spacing: -0.02em; color: #fff; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 2px 12px rgba(0,0,0,0.2); }
+    header h1 span { color: #fff; }
+    .title-badge {
+      display: inline-block;
+      margin: 0.75rem 0 1.5rem;
+      padding: 0.3rem 0.9rem;
+      border-radius: 2rem;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(6px);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .tagline { color: #1a3557; max-width: 560px; margin: 0 auto 2rem; font-size: 1.05rem; font-weight: 500; text-shadow: 0 1px 3px rgba(255,255,255,0.5); }
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .2s, transform .15s, box-shadow .2s;
+    }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+    .btn-primary { background: var(--accent); color: #fff; border: none; box-shadow: 0 2px 10px rgba(26,111,196,0.35); }
+    .btn-outline { background: rgba(255,255,255,0.55); color: #0d1f3c; border: 1.5px solid rgba(26,111,196,0.5); backdrop-filter: blur(6px); font-weight: 700; }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 0.75rem; }
+    .section-desc { color: var(--muted); max-width: 100%; white-space: nowrap; margin-bottom: 3rem; }
+
+    /* ── BIO ── */
+    #about { background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: inset 0 -1px 0 var(--border); }
+    .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    @media (max-width: 680px) { .bio-grid { grid-template-columns: 1fr; } }
+    .bio-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.97rem; }
+    .bio-text .section-label { color: var(--accent); }
+    .bio-text .section-title { margin-bottom: 1rem; }
+    .stats-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    /* ── CARDS ── */
+    #highlights { background: var(--bg); border-bottom: 1px solid var(--border); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(26,111,196,0.12); }
+    .card:hover::before { opacity: 1; }
+    .card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .card ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .card ul li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+    }
+    .card ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── EXPERIENCE CARDS ── */
+    #experience { background: var(--surface); border-bottom: 1px solid var(--border); }
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0;
+      overflow: hidden;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .exp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+    /* coloured top bar driven by inline --co var */
+    .exp-card-top {
+      height: 5px;
+      background: var(--co, var(--accent));
+    }
+    .exp-card:hover { border-color: var(--co, var(--accent)); }
+    .exp-card-body { padding: 1.75rem 1.75rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+    /* logo mark */
+    .exp-logo {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.1rem;
+      flex-shrink: 0;
+    }
+    .exp-logo img {
+      height: 100%;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      display: block;
+    }
+    .exp-logo svg {
+      height: 32px;
+      width: auto;
+      max-width: 180px;
+      display: block;
+    }
+
+    /* company name — the hero element */
+    .exp-company {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--co, var(--accent));
+      line-height: 1.15;
+      margin-bottom: 0.3rem;
+    }
+    .exp-role {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .exp-period {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0.2rem 0.7rem;
+      margin-bottom: 1.1rem;
+      width: fit-content;
+    }
+    .exp-period::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--co, var(--accent)); flex-shrink: 0; }
+    .exp-divider { height: 1px; background: var(--border); margin-bottom: 1rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .exp-bullets li {
+      font-size: 0.84rem;
+      color: var(--muted);
+      padding-left: 1.1rem;
+      position: relative;
+      line-height: 1.5;
+    }
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--co, var(--accent));
+      font-size: 0.72rem;
+      top: 0.2rem;
+    }
+
+    /* ── CERTIFICATIONS GRID ── */
+    #certifications { background: var(--bg); border-bottom: 1px solid var(--border); }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.25rem;
+    }
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.9rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      cursor: default;
+    }
+    .cert-card:hover {
+      border-color: var(--accent2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(22,163,74,0.15);
+    }
+    .cert-badge-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+      transition: transform .2s;
+    }
+    .cert-card:hover .cert-badge-img { transform: scale(1.06); }
+    .cert-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .cert-issuer {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: -0.4rem;
+    }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--surface); border-bottom: 1px solid var(--border); }
+    .edu-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      max-width: 600px;
+    }
+    .edu-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .edu-degree { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .edu-school { font-size: 0.88rem; color: var(--accent); font-weight: 600; margin-bottom: 0.2rem; }
+    .edu-year { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; }
+    @media (max-width: 700px) { .contact-wrap { grid-template-columns: 1fr; gap: 2rem; } }
+    .contact-info h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+    .contact-info p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .info-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+    .info-icon { font-size: 1rem; margin-top: 0.15rem; }
+    .info-item a { color: var(--accent); text-decoration: none; font-size: 0.88rem; }
+    .info-item a:hover { text-decoration: underline; }
+    .info-item span { color: var(--muted); font-size: 0.88rem; }
+
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+    label { font-size: 0.8rem; font-weight: 600; color: var(--muted); display: block; margin-bottom: 0.3rem; }
+    input, textarea, select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.65rem 0.9rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color .2s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 130px; }
+    .btn-submit {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.7rem 1.6rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+    .form-note { font-size: 0.78rem; color: var(--muted); }
+    #form-success {
+      display: none;
+      background: rgba(63,185,80,0.12);
+      border: 1px solid var(--accent2);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      color: var(--accent2);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav ul { gap: 1rem; }
+      nav { padding: 0.75rem 1rem; }
+      .exp-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="topbar"></div>
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<div class="page">
-
-  <!-- ══ HEADER ══ -->
-  <header class="header">
-    <div class="header-photo">
-      <img src="data:image/jpeg;base64,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" alt="Atul Singh" />
+  <!-- HERO -->
+  <header>
+    <div class="clouds">
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+      <div class="cloud c6"></div>
     </div>
-    <div class="header-info">
-      <div class="name">Atul Singh</div>
-      <div class="title-line">SIEM Lead Engineer &nbsp;·&nbsp; AIOps Platform Architect</div>
-      <div class="contact-row">
-        <div class="contact-item"><div class="cicon">📍</div> Omaha, NE — USA</div>
-        <div class="contact-item"><div class="cicon">✉</div> <a href="mailto:atulsinghmothi&#64;gmail&#46;com">atulsinghmothi&#64;gmail&#46;com</a></div>
-        <div class="contact-item"><div class="cicon">📞</div> <a href="tel:+15314848201">+1 (531) 484-8201</a></div>
+
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="hero-content">
+      <h1>Atul <span>Singh</span></h1>
+      <div class="title-badge">Enterprise Solution Architect · SIEM &amp; Observability</div>
+      <p class="tagline">11+ years architecting enterprise SIEM, AIOps, and observability platforms.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-primary">Get in touch</a>
+        <a href="#experience" class="btn btn-outline">View experience</a>
       </div>
-      <div class="exp-badge">⚡ 11.2+ Years Experience</div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="orbit-ring ring-1"></div>
+      <div class="orbit-ring ring-2"></div>
+      <div class="orbit-ring ring-3"></div>
+      <div class="orbit-center">⚡</div>
+      <div class="orbit-dot dot-1"></div>
+      <div class="orbit-dot dot-2"></div>
+      <div class="orbit-dot dot-3"></div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
     </div>
   </header>
 
-  <div class="body">
-
-    <!-- ══ SIDEBAR ══ -->
-    <aside class="sidebar">
-
-      <!-- CERTIFICATIONS -->
-      <div class="section">
-        <div class="sec-title"><span class="sico">🏅</span> Certifications</div>
-        <ul class="cert-list">
-          <li>Cribl Certified Observability Engineer</li>
-          <li>Splunk Certified Enterprise Architect</li>
-          <li>Splunk Certified Enterprise Admin</li>
-          <li>Splunk Certified Power User</li>
-          <li>Splunk Certified User</li>
-          <li>Splunk Sales Engineer — L1</li>
-          <li>ITIL V4 Foundation</li>
-          <li>BCS ISEB Certificate in Business Analysis</li>
-          <li>Level "0" French Language Certification</li>
-        </ul>
-      </div>
-
-      <!-- CORE PLATFORMS -->
-      <div class="section">
-        <div class="sec-title"><span class="sico">🛠</span> Core Platforms</div>
-        <div class="skill-group">
-          <div class="skill-group-label">SIEM / Observability</div>
-          <div class="tags">
-            <span class="tag">Splunk Enterprise</span>
-            <span class="tag">Splunk Cloud</span>
-            <span class="tag">Splunk ITSI</span>
-            <span class="tag">Splunk ES</span>
-            <span class="tag">Datadog</span>
-            <span class="tag">Dynatrace</span>
-            <span class="tag">SolarWinds</span>
-            <span class="tag">Cribl</span>
+  <!-- BIO -->
+  <section id="about">
+    <div class="container">
+      <div class="bio-grid">
+        <div class="bio-text">
+          <p class="section-label">About</p>
+          <h2 class="section-title">Turning data chaos into actionable intelligence.</h2>
+          <p>I'm a SIEM &amp; observability engineer based in Omaha, NE with over 11 years of field experience designing, implementing, and leading enterprise-grade security and monitoring platforms.</p>
+          <p>Currently serving as Platform Lead Architect at Converge Technology, I lead a team of thirteen engineers delivering AIOps solutions built on Splunk, Datadog, Dynatrace, SolarWinds, and Cribl — handling everything from architecture and capacity planning to application onboarding and integration.</p>
+          <p>I thrive at the intersection of security, engineering, and business — bridging the gap between SOC teams, infrastructure, and executive stakeholders.</p>
+          <div class="stats-row">
+            <div class="stat"><span class="stat-num">11+</span><span class="stat-label">Years experience</span></div>
+            <div class="stat"><span class="stat-num">18TB</span><span class="stat-label">Daily indexing managed</span></div>
+            <div class="stat"><span class="stat-num">13</span><span class="stat-label">Engineers led</span></div>
+            <div class="stat"><span class="stat-num">9</span><span class="stat-label">Certifications</span></div>
           </div>
         </div>
-        <div class="skill-group">
-          <div class="skill-group-label">Cloud &amp; DevOps</div>
-          <div class="tags">
-            <span class="tag">Google Cloud</span>
-            <span class="tag">Azure</span>
-            <span class="tag">AWS</span>
+        <div>
+          <p class="section-label" style="margin-bottom:0.75rem;">Core skills</p>
+          <div class="skills-list">
+            <span class="tag">Splunk Enterprise Architect</span>
+            <span class="tag">Splunk Enterprise Security</span>
+            <span class="tag">Observability</span>
+            <span class="tag">Site Reliability Engineering</span>
+            <span class="tag">Cloud Solutions</span>
             <span class="tag">Kubernetes</span>
-            <span class="tag">Docker</span>
-            <span class="tag">CI/CD</span>
-            <span class="tag">Ansible</span>
-            <span class="tag">Bitbucket</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-group-label">Integrations</div>
-          <div class="tags">
-            <span class="tag">MuleSoft</span>
+            <span class="tag">Pre-Sales Engineering</span>
+            <span class="tag">Datadog</span>
+            <span class="tag">Cribl</span>
+            <span class="tag">SolarWinds</span>
+            <span class="tag">Dynatrace</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Azure</span>
+            <span class="tag">GCP</span>
+            <span class="tag">CI/CD · Ansible</span>
+            <span class="tag">New Relic</span>
             <span class="tag">ServiceNow</span>
-            <span class="tag">Hashicorp</span>
-            <span class="tag">Snowflake</span>
-            <span class="tag">SAP</span>
-            <span class="tag">DB Connect</span>
-            <span class="tag">Carbon Black</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-group-label">Methods &amp; Frameworks</div>
-          <div class="tags">
-            <span class="tag">ITIL V4</span>
-            <span class="tag">Scrum / Agile</span>
-            <span class="tag">Kanban</span>
-            <span class="tag">SRE</span>
-            <span class="tag">SOC / NOC</span>
-            <span class="tag">CIM / RBAC</span>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- EDUCATION -->
-      <div class="section">
-        <div class="sec-title"><span class="sico">🎓</span> Education</div>
-        <div class="edu-item">
-          <div class="edu-deg">B.E. — Electronics &amp; Communication Engineering</div>
-          <div class="edu-school">Indore, India</div>
-          <div class="edu-year">2010 – 2014</div>
-        </div>
-      </div>
+  <!-- HIGHLIGHTS / CARDS -->
+  <section id="highlights">
+    <div class="container">
+      <p class="section-label">Highlights</p>
+      <h2 class="section-title">What I bring to the table</h2>
+      <p class="section-desc">Three pillars that define how I deliver value — from architecture to operations to business alignment.</p>
+      <div class="cards">
 
-    </aside>
-
-    <!-- ══ MAIN COLUMN ══ -->
-    <main class="main">
-
-      <!-- PROFESSIONAL SUMMARY -->
-      <div class="section">
-        <div class="sec-title"><span class="sico">💡</span> Professional Summary</div>
-        <div class="summary-grid">
-          <div class="summary-item">SIEM &amp; observability engineer with 11.2+ years of field experience; strong curiosity for SIEM, O8, security, and business risk management.</div>
-          <div class="summary-item">Deep expertise in Splunk architecture, Datadog APM, SolarWinds monitoring, Dynatrace, and Cribl implementation &amp; optimization.</div>
-          <div class="summary-item">Proven track record in end-to-end project planning — from scope management to cost estimation, risk analysis, and quality delivery.</div>
-          <div class="summary-item">Cloud ingestion architect: CloudWatch, Azure Monitor, GCP Logging, Kubernetes, serverless apps, and container platforms.</div>
-          <div class="summary-item">Engage Pre-Sales &amp; Engineering leadership to strategize on RFIs/RFPs, SOWs, POVs, and SIEM portfolio demos.</div>
-        </div>
-      </div>
-
-      <!-- EXPERIENCE -->
-      <div class="section">
-        <div class="sec-title"><span class="sico">💼</span> Work Experience</div>
-
-        <!-- Job 1 -->
-        <div class="job">
-          <div class="job-header">
-            <div class="job-company">Converge Technology — New York, USA</div>
-            <div class="job-period">Mar 2023 – Present</div>
-          </div>
-          <div class="job-role">Platform Lead Architect, AIOps</div>
-          <ul class="job-bullets">
-            <li>Lead an AIOps engineering team of 7 across design, implementation, maintenance, and support.</li>
-            <li>Architect end-to-end Business Intelligence &amp; IT Observability solutions: Splunk ITSI, Datadog, SolarWinds, Dynatrace.</li>
-            <li>Embed SRE principles into SDLC and ITSM processes; support incident response with technical analysis and post-incident reviews.</li>
-            <li>Configure high-availability Splunk infrastructure: indexing clusters, search heads, forwarders, and load balancers.</li>
-            <li>Develop data ingestion, normalization, and lifecycle strategies including retention, backup, and recovery.</li>
-            <li>Delivered SAP PowerConnect solution for e-commerce and integrated Kubernetes/Hybris with Splunk Cloud via OTel Collector.</li>
-            <li>Establish governance frameworks, best practices, and compliance standards for SIEM deployments.</li>
+        <div class="card">
+          <div class="card-icon">🏗️</div>
+          <h3>Enterprise Architecture</h3>
+          <p>Designing fault-tolerant, high-volume SIEM and observability platforms from the ground up across hybrid and multi-cloud environments.</p>
+          <ul>
+            <li>Splunk indexer clusters, SHC, and forwarder topologies</li>
+            <li>Cloud-native ingestion: CloudWatch, Azure Monitor, GCP, K8s</li>
+            <li>On-prem to cloud migrations at 18 TB/day scale</li>
+            <li>Capacity planning, storage lifecycle, and DR strategies</li>
+            <li>Cribl pipeline design for ingestion consolidation</li>
           </ul>
         </div>
-        <div class="job-divider"></div>
 
-        <!-- Job 2 -->
-        <div class="job">
-          <div class="job-header">
-            <div class="job-company">Standard Chartered Bank — Delhi, India</div>
-            <div class="job-period">Jul 2020 – Jul 2022</div>
-          </div>
-          <div class="job-role">Assistant Manager, SIEM</div>
-          <ul class="job-bullets">
-            <li>Led SIEM Engineering team with full Splunk &amp; Cribl ownership across 18 TB/day indexing environments.</li>
-            <li>Delivered Splunk migration: On-Prem (Enterprise) → Cloud, and Cloud-to-Cloud migrations.</li>
-            <li>Built reusable search frameworks, data models, and CIM mappings; designed capabilities for AppDynamics, SQL, ServiceNow, MuleSoft, AWS, Azure, and more.</li>
-            <li>Managed Cribl infrastructure for ingestion consolidation and pipeline management.</li>
+        <div class="card">
+          <div class="card-icon">🔐</div>
+          <h3>Security &amp; SIEM Operations</h3>
+          <p>Building security monitoring and incident response capabilities that empower SOC teams to detect, investigate, and respond faster.</p>
+          <ul>
+            <li>Splunk Enterprise Security (ES) end-to-end delivery</li>
+            <li>CIM-compliant data onboarding and normalization</li>
+            <li>Custom correlation searches and threat detections</li>
+            <li>RBAC, LDAP/AD/SAML/SSO policy enforcement</li>
+            <li>Incident response, RCA, and post-mortems</li>
           </ul>
         </div>
-        <div class="job-divider"></div>
 
-        <!-- Job 3 -->
-        <div class="job">
-          <div class="job-header">
-            <div class="job-company">Ernst &amp; Young — Bangalore, India</div>
-            <div class="job-period">Feb 2019 – Jul 2020</div>
-          </div>
-          <div class="job-role">Splunk Architect, Enterprise Solutions</div>
-          <ul class="job-bullets">
-            <li>Architected large-scale log, metric, and trace ingestion from hybrid on-prem &amp; cloud workloads.</li>
-            <li>Designed RBAC, LDAP/AD/SAML/SSO integrations, and security policies.</li>
-            <li>Performed capacity planning, scaling, clustering design, storage planning, and performance benchmarking.</li>
-            <li>Installed and managed all Splunk roles: Search Heads, Indexers, Forwarders, Deployment Servers, Cluster Managers.</li>
-          </ul>
-        </div>
-        <div class="job-divider"></div>
-
-        <!-- Job 4 -->
-        <div class="job">
-          <div class="job-header">
-            <div class="job-company">Accenture — Bangalore, India</div>
-            <div class="job-period">May 2015 – Jan 2019</div>
-          </div>
-          <div class="job-role">Sr. Engineer, L3 Production</div>
-          <ul class="job-bullets">
-            <li>Splunk SIEM production support for a global financial client; onboarded logs via HF/UF/HEC/scripted inputs/Add-Ons.</li>
-            <li>Configured DB Connect integrations (Oracle, MySQL, MSSQL) and used ServiceNow/Remedy for ticket management.</li>
-            <li>Optimized Splunk query performance and reduced dashboard load times; built POC dashboards for IT ops and service owners.</li>
-          </ul>
-        </div>
-        <div class="job-divider"></div>
-
-        <!-- Job 5 -->
-        <div class="job">
-          <div class="job-header">
-            <div class="job-company">Tata Communications — Riyadh, KSA</div>
-            <div class="job-period">Oct 2014 – May 2015</div>
-          </div>
-          <div class="job-role">Graduate Engineer Trainee, Data Analyst</div>
-          <ul class="job-bullets">
-            <li>Project implementation consultant using Splunk and Power BI for data analysis across telecom products.</li>
-            <li>Managed Siebel requirement tracking, month-end reporting matrices, and compliance UAT sign-off.</li>
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>AIOps &amp; Observability Implementation</h3>
+          <p>Turning raw telemetry into business decisions — building KPI dashboards, SLO monitoring, and proactive alerting for engineering and leadership.</p>
+          <ul>
+            <li>Splunk ITSI service health models and KPIs</li>
+            <li>Datadog SLO, error-rate, and latency monitoring</li>
+            <li>NOC/SOC dashboards aligned to business outcomes</li>
+            <li>Pre-sales: POVs, demos, RFP/RFI responses, SOW scoping</li>
+            <li>Agile team leadership across engineering &amp; delivery</li>
           </ul>
         </div>
 
       </div>
+    </div>
+  </section>
 
-    </main>
-  </div>
+  <!-- EXPERIENCE CARDS -->
+  <section id="experience">
+    <div class="container">
+      <p class="section-label">Career</p>
+      <h2 class="section-title">Work Experience</h2>
+      <p class="section-desc" style="margin-bottom:3rem;">11+ years across financial services, consulting, and technology sectors — from global banks to Fortune-500 systems integrators.</p>
 
-  <div class="bottombar">Atul Singh &nbsp;&middot;&nbsp; SIEM Lead Engineer &nbsp;&middot;&nbsp; atulsinghmothi&#64;gmail&#46;com &nbsp;&middot;&nbsp; Omaha, NE &mdash; USA &nbsp;&middot;&nbsp; Nov 2025</div>
+      <div class="exp-grid">
 
-</div>
+        <!-- Converge Technology Solutions -->
+        <div class="exp-card" style="--co:#7c5cbf; --co-bg:#f3eeff;">
+          <div class="exp-card-top"></div>
+          <div class="exp-card-body">
+            <div class="exp-logo">
+              <!-- Converge: icon mark only -->
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 6A16 16 0 1 0 30 30" stroke="#7c5cbf" stroke-width="4" stroke-linecap="round"/>
+                <path d="M24 11A9 9 0 1 0 24 25" stroke="#a987e8" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="exp-company">Converge</div>
+            <div class="exp-role">Platform Lead Architect · AIOps</div>
+            <div class="exp-period">Mar 2023 – Present · New York, USA</div>
+            <div class="exp-divider"></div>
+            <ul class="exp-bullets">
+              <li>Led AIOps engineering team of seven across Splunk ITSI, Datadog, SolarWinds, and Dynatrace.</li>
+              <li>Architected end-to-end BI and IT observability solutions; embedded SRE into SDLC and ITSM.</li>
+              <li>Governed architecture, data, security, and change management frameworks enterprise-wide.</li>
+              <li>Integrated Kubernetes hybris platform with Splunk Cloud via OpenTelemetry; designed SAP monitoring.</li>
+              <li>Led pre-sales POVs, demos, RFP/RFI responses, and SOW scoping.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Standard Chartered Bank -->
+        <div class="exp-card" style="--co:#0077a8; --co-bg:#e8f7fc;">
+          <div class="exp-card-top"></div>
+          <div class="exp-card-body">
+            <div class="exp-logo">
+              <img src="https://www.sc.com/en/uploads/sites/66/others/Standard-Chartered-logo-new-112x112-1.svg" alt="Standard Chartered" />
+            </div>
+            <div class="exp-company">Standard Chartered</div>
+            <div class="exp-role">Assistant Manager · SIEM</div>
+            <div class="exp-period">Jul 2020 – Jul 2022 · Delhi, India</div>
+            <div class="exp-divider"></div>
+            <ul class="exp-bullets">
+              <li>Led SIEM Engineering team owning Splunk &amp; Cribl at 18 TB/day indexing scale.</li>
+              <li>Delivered on-prem to cloud and cloud-to-cloud Splunk migrations.</li>
+              <li>Built integrations for AppDynamics, MuleSoft, AWS, Azure, Datadog, HashiCorp, and storage platforms.</li>
+              <li>Managed Cribl pipelines for ingestion consolidation; performed regular platform assessments.</li>
+              <li>Provided L3 production support, RCA, and expedient remediation across Splunk environments.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Ernst & Young -->
+        <div class="exp-card" style="--co:#b8a000; --co-bg:#fffbe6;">
+          <div class="exp-card-top"></div>
+          <div class="exp-card-body">
+            <div class="exp-logo">
+              <img src="https://www.ey.com/content/dam/ey-unified-site/site-resources/ey-com/ey-logo-footer.png" alt="EY Ernst & Young" />
+            </div>
+            <div class="exp-company">Ernst &amp; Young</div>
+            <div class="exp-role">Splunk Architect · Enterprise Solutions</div>
+            <div class="exp-period">Feb 2019 – Jul 2020 · Bangalore, India</div>
+            <div class="exp-divider"></div>
+            <ul class="exp-bullets">
+              <li>Architected large-scale log, metric, and trace ingestion from hybrid on-prem and cloud workloads.</li>
+              <li>Managed all Splunk components: Search Heads, Indexers, Forwarders, Deployment Servers, Cluster Managers.</li>
+              <li>Designed RBAC, LDAP/AD/SAML/SSO policies and established alerting, KPI, and SLO best practices.</li>
+              <li>Built custom CIM-compliant Technology Add-Ons; configured HEC and DB Connect ingestion pipelines.</li>
+              <li>Mentored Splunk admins, engineers, and SOC/NOC teams on best practices and integrations.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Accenture -->
+        <div class="exp-card" style="--co:#a100ff; --co-bg:#f8eeff;">
+          <div class="exp-card-top"></div>
+          <div class="exp-card-body">
+            <div class="exp-logo">
+              <!-- Accenture: > chevron icon only -->
+              <svg viewBox="0 0 38 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 28.75L22.07 20.54L0 11.92V0.5L37.8 15.72V25.19L0 40.5V28.75Z" fill="#A100FF"/>
+              </svg>
+            </div>
+            <div class="exp-company">Accenture</div>
+            <div class="exp-role">Senior Engineer · L3 Production</div>
+            <div class="exp-period">May 2015 – Jan 2019 · Bangalore, India</div>
+            <div class="exp-divider"></div>
+            <ul class="exp-bullets">
+              <li>Splunk SIEM L3 production support for a global financial services client.</li>
+              <li>Onboarded log ingestion via Heavy/Universal Forwarders, HEC, modular inputs, and custom Add-Ons.</li>
+              <li>Configured DB Connect for Oracle, MySQL, and MSSQL; managed licensing and CIM compliance.</li>
+              <li>Optimized search performance and dashboard load times; designed ground-up distributed Splunk installs.</li>
+              <li>Built POC dashboards for IT ops and server health; produced KT documentation and process flows.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tata Communications -->
+        <div class="exp-card" style="--co:#e31837; --co-bg:#fff0f2;">
+          <div class="exp-card-top"></div>
+          <div class="exp-card-body">
+            <div class="exp-logo">
+              <!-- Tata: T-bar lettermark icon -->
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="7" width="32" height="6" rx="3" fill="#e31837"/>
+                <rect x="17" y="13" width="6" height="22" rx="3" fill="#e31837"/>
+              </svg>
+            </div>
+            <div class="exp-company">Tata Communications</div>
+            <div class="exp-role">Graduate Engineer Trainee · Data Analyst</div>
+            <div class="exp-period">Oct 2014 – May 2015 · Riyadh, Saudi Arabia</div>
+            <div class="exp-divider"></div>
+            <ul class="exp-bullets">
+              <li>PIC using Splunk and Power BI for data analysis across multiple telecom products and markets.</li>
+              <li>Handled Siebel requirement management, PO allocation, and UAT/compliance signoff.</li>
+              <li>Delivered month-end reporting matrix and risk mitigation using Splunk data analysis.</li>
+              <li>Built dashboards and reports to improve overall platform usage and demonstrate capabilities.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="container">
+      <p class="section-label">Credentials</p>
+      <h2 class="section-title">Certifications</h2>
+      <p class="section-desc" style="margin-bottom:2rem;">Industry-recognized certifications validating expertise across observability, SIEM, and business analysis.</p>
+      <div class="cert-grid">
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.ctfassets.net/xnqwd8kotbaj/2cUEN3dr8YTRQNGaJFIROU/340dea7e46f0bd99d3f56d1ca6a8e008/CCOE.THUMB_.2X.180x200.01.jpg" alt="Cribl CCOE badge" />
+          <div>
+            <div class="cert-name">Cribl Certified Observability Engineer</div>
+            <div class="cert-issuer">Cribl</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/e4688cd6-fb54-4993-bd26-bcfa927b0ce2/20-14376-SPLK-Certification-Badge-Youracclaim.com-101_Splunk-Enterprise-Certified-Architect.png" alt="Splunk Enterprise Certified Architect badge" />
+          <div>
+            <div class="cert-name">Splunk Certified Enterprise Architect</div>
+            <div class="cert-issuer">Splunk · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/6f373b45-7707-4fc7-8cd3-c4ac0f5890d5/20-14376-SPLK-Certification-Badge-Youracclaim.com-101_Splunk-Enterprise-Certified-Admin.png" alt="Splunk Enterprise Certified Admin badge" />
+          <div>
+            <div class="cert-name">Splunk Certified Enterprise Admin</div>
+            <div class="cert-issuer">Splunk · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/e3d0d18a-edd0-49b3-bad9-f09fffaa29e3/20-14376-SPLK-Certification-Badge-Youracclaim.com-101_Splunk-Core-Certified-Power-User.png" alt="Splunk Core Certified Power User badge" />
+          <div>
+            <div class="cert-name">Splunk Certified Power User</div>
+            <div class="cert-issuer">Splunk · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/93ffdd67-fa3a-4690-9289-094e2e3d63bd/20-14376-SPLK-Certification-Badge-Youracclaim.com-101_Splunk-Core-Certified-User.png" alt="Splunk Core Certified User badge" />
+          <div>
+            <div class="cert-name">Splunk Certified User</div>
+            <div class="cert-issuer">Splunk · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/97c6ffc7-9787-4063-9d92-2a112dc88331/image.png" alt="Splunk Sales Engineer I badge" />
+          <div>
+            <div class="cert-name">Splunk Sales Engineer I</div>
+            <div class="cert-issuer">Splunk · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/8b943c4b-c186-4e9f-84aa-004322b76eed/image.png" alt="ITIL 4 Foundation badge" />
+          <div>
+            <div class="cert-name">ITIL V4 Foundation</div>
+            <div class="cert-issuer">PeopleCert · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <img class="cert-badge-img" src="https://images.credly.com/images/915addf1-19b1-4ccb-af08-5f1b785a5140/image.png" alt="BCS Business Analysis badge" />
+          <div>
+            <div class="cert-name">BCS ISEB Business Analysis</div>
+            <div class="cert-issuer">BCS · Credly</div>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div style="width:90px;height:90px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#002395,#ED2939);border-radius:50%;font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-1px;">FR</div>
+          <div>
+            <div class="cert-name">Level 0 French Language</div>
+            <div class="cert-issuer">Language Certification</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="container">
+      <p class="section-label">Education</p>
+      <h2 class="section-title">Academic Background</h2>
+      <div class="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div>
+          <div class="edu-degree">Bachelor of Engineering (BE)</div>
+          <div class="edu-school">Electronics &amp; Communication Engineering</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Let's connect</h2>
+      <div class="contact-wrap">
+        <div class="contact-info">
+          <h3>Get in touch</h3>
+          <p>Whether you're scoping a new SIEM project, evaluating observability platforms, or looking for a technical lead — I'd love to hear from you.</p>
+          <div class="info-item">
+            <span class="info-icon">✉️</span>
+            <a href="mailto:atulsinghmothi@gmail.com">atulsinghmothi@gmail.com</a>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📱</span>
+            <a href="tel:+15314848201">+1 (531) 484-8201</a>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📍</span>
+            <span>Omaha, NE — USA</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🏢</span>
+            <span>Converge Technology Solutions</span>
+          </div>
+        </div>
+
+        <form id="contact-form" onsubmit="handleSubmit(event)">
+          <div id="form-success">Message sent! I'll get back to you soon.</div>
+          <div class="form-row">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" type="text" placeholder="Your name" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@company.com" required />
+            </div>
+          </div>
+          <div>
+            <label for="subject">Subject</label>
+            <input id="subject" type="text" placeholder="Project inquiry, collaboration, etc." />
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell me about your project or what you'd like to discuss..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send message →</button>
+          <p class="form-note">I typically respond within 1–2 business days.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Atul Singh · Enterprise Solution Architect · SIEM &amp; Observability · Omaha, NE</p>
+  </footer>
+
+  <script>
+    /* ── PARTICLE CANVAS ── */
+    (function () {
+      const canvas = document.getElementById('particleCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+
+      const COLORS = ['rgba(88,166,255,', 'rgba(124,58,237,'];
+
+      function Particle() { this.reset(); }
+      Particle.prototype.reset = function () {
+        this.x     = Math.random() * W;
+        this.y     = Math.random() * H;
+        this.r     = Math.random() * 1.8 + 0.4;
+        this.vx    = (Math.random() - 0.5) * 0.3;
+        this.vy    = (Math.random() - 0.5) * 0.3;
+        this.alpha = Math.random() * 0.5 + 0.15;
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      };
+      Particle.prototype.update = function () {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < -10 || this.x > W + 10 || this.y < -10 || this.y > H + 10) this.reset();
+      };
+      Particle.prototype.draw = function () {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + this.alpha + ')';
+        ctx.fill();
+      };
+
+      for (let i = 0; i < 90; i++) particles.push(new Particle());
+
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(88,166,255,${(1 - dist / 130) * 0.08})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => { p.update(); p.draw(); });
+        drawLines();
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('contact-form');
+      const success = document.getElementById('form-success');
+      success.style.display = 'block';
+      form.querySelectorAll('input, textarea').forEach(el => el.value = '');
+      setTimeout(() => { success.style.display = 'none'; }, 5000);
+    }
+  </script>
 
 </body>
 </html>
