@@ -16,7 +16,6 @@
       --accent2: #16a34a;
       --text: #0f172a;
       --muted: #4a6080;
-      --danger: #dc2626;
     }
 
     html { scroll-behavior: smooth; }
@@ -42,12 +41,10 @@
       padding: 0.75rem 2rem;
       box-shadow: 0 1px 8px rgba(0,0,0,0.06);
     }
-    nav .logo { font-weight: 700; color: var(--accent); letter-spacing: 0.02em; font-size: 1rem; }
     nav ul { list-style: none; display: flex; gap: 1.75rem; }
     nav a { color: var(--muted); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
     nav a:hover { color: var(--text); }
 
-    /* ── HERO ── */
     /* ── HERO ── */
     header {
       position: relative;
@@ -296,10 +293,10 @@
       margin-bottom: 0.4rem;
     }
     .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 0.75rem; }
-    .section-desc { color: var(--muted); max-width: 100%; white-space: nowrap; margin-bottom: 3rem; }
+    .section-desc { color: var(--muted); max-width: 100%; margin-bottom: 3rem; }
 
     /* ── BIO ── */
-    #about { background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: inset 0 -1px 0 var(--border); }
+    #about { background: var(--surface); border-bottom: 1px solid var(--border); }
     .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
     @media (max-width: 680px) { .bio-grid { grid-template-columns: 1fr; } }
     .bio-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.97rem; }
@@ -523,7 +520,6 @@
     .edu-icon { font-size: 2.5rem; flex-shrink: 0; }
     .edu-degree { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
     .edu-school { font-size: 0.88rem; color: var(--accent); font-weight: 600; margin-bottom: 0.2rem; }
-    .edu-year { font-size: 0.8rem; color: var(--muted); }
 
     /* ── CONTACT ── */
     #contact { background: var(--bg); }
@@ -749,12 +745,12 @@
     <div class="container">
       <p class="section-label">Career</p>
       <h2 class="section-title">Work Experience</h2>
-      <p class="section-desc" style="margin-bottom:3rem;">11+ years across financial services, consulting, and technology sectors — from global banks to Fortune-500 systems integrators.</p>
+      <p class="section-desc">11+ years across financial services, consulting, and technology sectors — from global banks to Fortune-500 systems integrators.</p>
 
       <div class="exp-grid">
 
         <!-- Converge Technology Solutions -->
-        <div class="exp-card" style="--co:#7c5cbf; --co-bg:#f3eeff;">
+        <div class="exp-card" style="--co:#7c5cbf;">
           <div class="exp-card-top"></div>
           <div class="exp-card-body">
             <div class="exp-logo">
@@ -779,7 +775,7 @@
         </div>
 
         <!-- Standard Chartered Bank -->
-        <div class="exp-card" style="--co:#0077a8; --co-bg:#e8f7fc;">
+        <div class="exp-card" style="--co:#0077a8;">
           <div class="exp-card-top"></div>
           <div class="exp-card-body">
             <div class="exp-logo">
@@ -800,7 +796,7 @@
         </div>
 
         <!-- Ernst & Young -->
-        <div class="exp-card" style="--co:#b8a000; --co-bg:#fffbe6;">
+        <div class="exp-card" style="--co:#b8a000;">
           <div class="exp-card-top"></div>
           <div class="exp-card-body">
             <div class="exp-logo">
@@ -821,7 +817,7 @@
         </div>
 
         <!-- Accenture -->
-        <div class="exp-card" style="--co:#a100ff; --co-bg:#f8eeff;">
+        <div class="exp-card" style="--co:#a100ff;">
           <div class="exp-card-top"></div>
           <div class="exp-card-body">
             <div class="exp-logo">
@@ -845,7 +841,7 @@
         </div>
 
         <!-- Tata Communications -->
-        <div class="exp-card" style="--co:#e31837; --co-bg:#fff0f2;">
+        <div class="exp-card" style="--co:#e31837;">
           <div class="exp-card-top"></div>
           <div class="exp-card-body">
             <div class="exp-logo">
