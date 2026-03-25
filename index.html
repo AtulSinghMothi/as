@@ -565,6 +565,16 @@
     }
     .btn-submit:hover { opacity: 0.85; transform: translateY(-1px); }
     .form-note { font-size: 0.78rem; color: var(--muted); }
+    #form-error {
+      display: none;
+      background: rgba(220,50,50,0.10);
+      border: 1px solid #e05555;
+      color: #c0392b;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
     #form-success {
       display: none;
       background: rgba(63,185,80,0.12);
@@ -996,25 +1006,26 @@
 
         <form id="contact-form" onsubmit="handleSubmit(event)">
           <div id="form-success">Message sent! I'll get back to you soon.</div>
+          <div id="form-error">Something went wrong. Please try again or email me directly.</div>
           <div class="form-row">
             <div>
               <label for="name">Name</label>
-              <input id="name" type="text" placeholder="Your name" required />
+              <input id="name" name="name" type="text" placeholder="Your name" required />
             </div>
             <div>
               <label for="email">Email</label>
-              <input id="email" type="email" placeholder="you@company.com" required />
+              <input id="email" name="email" type="email" placeholder="you@company.com" required />
             </div>
           </div>
           <div>
             <label for="subject">Subject</label>
-            <input id="subject" type="text" placeholder="Project inquiry, collaboration, etc." />
+            <input id="subject" name="subject" type="text" placeholder="Project inquiry, collaboration, etc." />
           </div>
           <div>
             <label for="message">Message</label>
-            <textarea id="message" placeholder="Tell me about your project or what you'd like to discuss..." required></textarea>
+            <textarea id="message" name="message" placeholder="Tell me about your project or what you'd like to discuss..." required></textarea>
           </div>
-          <button type="submit" class="btn-submit">Send message →</button>
+          <button type="submit" class="btn-submit" id="submit-btn">Send message →</button>
           <p class="form-note">I typically respond within 1–2 business days.</p>
         </form>
       </div>
@@ -1091,13 +1102,37 @@
       loop();
     })();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
       e.preventDefault();
       const form = document.getElementById('contact-form');
+      const btn  = document.getElementById('submit-btn');
       const success = document.getElementById('form-success');
-      success.style.display = 'block';
-      form.querySelectorAll('input, textarea').forEach(el => el.value = '');
-      setTimeout(() => { success.style.display = 'none'; }, 5000);
+      const error   = document.getElementById('form-error');
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      success.style.display = 'none';
+      error.style.display   = 'none';
+
+      try {
+        const res = await fetch('https://formspree.io/atulsinghmothi@gmail.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+        if (res.ok) {
+          success.style.display = 'block';
+          form.querySelectorAll('input, textarea').forEach(el => el.value = '');
+          setTimeout(() => { success.style.display = 'none'; }, 6000);
+        } else {
+          error.style.display = 'block';
+        }
+      } catch (_) {
+        error.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send message →';
+      }
     }
   </script>
 
