@@ -1115,12 +1115,16 @@
       error.style.display   = 'none';
 
       try {
-        const res = await fetch('https://formspree.io/atulsinghmothi@gmail.com', {
+        const formData = new FormData(form);
+        formData.append('_subject', 'Portfolio Contact — Atul Singh');
+        formData.append('_captcha', 'false');
+
+        const res = await fetch('https://formsubmit.co/ajax/atulsinghmothi@gmail.com', {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
+          body: formData
         });
-        if (res.ok) {
+        const data = await res.json();
+        if (res.ok && data.success) {
           success.style.display = 'block';
           form.querySelectorAll('input, textarea').forEach(el => el.value = '');
           setTimeout(() => { success.style.display = 'none'; }, 6000);
