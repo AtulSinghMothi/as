@@ -1,3 +1,0 @@
-test1.txt
-
-This is to test 2nd sync.
